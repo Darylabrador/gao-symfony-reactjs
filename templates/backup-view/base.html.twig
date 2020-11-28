@@ -2,8 +2,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title> Gestion ordinateur </title>
-
+        <title>{% block title %}Gestion ordinateur{% endblock %}</title>
+        {# {% block stylesheets %}{% endblock %} #}
+        
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -13,6 +14,8 @@
         {% block body %}
             <div id="app"></div>
         {% endblock %}
+        
+        {# {% block javascripts %}{% endblock %} #}
 
 
         {% block javascripts %}
