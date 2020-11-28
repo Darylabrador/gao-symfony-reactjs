@@ -5,7 +5,7 @@ La conception et le développement de ce projet s'est effectué dans le cadre de
 Ce projet utilise les technologies suivantes :
 
 - backend : Symfony 5.1.8 (API)
-- frontend : VueJS
+- frontend : Reactjs
 
 
 Identifiant du compte admin : 
