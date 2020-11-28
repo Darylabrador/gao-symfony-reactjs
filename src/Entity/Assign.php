@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AssignsRepository;
+use App\Repository\AssignRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AssignsRepository::class)
+ * @ORM\Entity(repositoryClass=AssignRepository::class)
  */
-class Assigns
+class Assign
 {
     /**
      * @ORM\Id
@@ -28,14 +28,14 @@ class Assigns
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Computers::class, inversedBy="desktop_id")
+     * @ORM\ManyToOne(targetEntity=Computer::class, inversedBy="assigns")
      */
-    private $computers;
+    private $computer;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Clients::class, inversedBy="assigns")
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="assigns")
      */
-    private $clients;
+    private $client;
 
     public function getId(): ?int
     {
@@ -66,26 +66,26 @@ class Assigns
         return $this;
     }
 
-    public function getComputers(): ?Computers
+    public function getComputer(): ?Computer
     {
-        return $this->computers;
+        return $this->computer;
     }
 
-    public function setComputers(?Computers $computers): self
+    public function setComputer(?Computer $computer): self
     {
-        $this->computers = $computers;
+        $this->computer = $computer;
 
         return $this;
     }
 
-    public function getClients(): ?Clients
+    public function getClient(): ?Client
     {
-        return $this->clients;
+        return $this->client;
     }
 
-    public function setClients(?Clients $clients): self
+    public function setClient(?Client $client): self
     {
-        $this->clients = $clients;
+        $this->client = $client;
 
         return $this;
     }

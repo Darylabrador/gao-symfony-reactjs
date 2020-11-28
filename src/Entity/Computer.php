@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientsRepository;
+use App\Repository\ComputerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=ClientsRepository::class)
+ * @ORM\Entity(repositoryClass=ComputerRepository::class)
  */
-class Clients
+class Computer
 {
     /**
      * @ORM\Id
@@ -21,16 +22,12 @@ class Clients
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Unique(message="Le poste existe déjà")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $surname;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Assigns::class, mappedBy="clients")
+     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="computer")
      */
     private $assigns;
 
@@ -56,42 +53,30 @@ class Clients
         return $this;
     }
 
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
-
-    public function setSurname(string $surname): self
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Assigns[]
+     * @return Collection|Assign[]
      */
     public function getAssigns(): Collection
     {
         return $this->assigns;
     }
 
-    public function addAssign(Assigns $assign): self
+    public function addAssign(Assign $assign): self
     {
         if (!$this->assigns->contains($assign)) {
             $this->assigns[] = $assign;
-            $assign->setClients($this);
+            $assign->setComputer($this);
         }
 
         return $this;
     }
 
-    public function removeAssign(Assigns $assign): self
+    public function removeAssign(Assign $assign): self
     {
         if ($this->assigns->removeElement($assign)) {
             // set the owning side to null (unless already changed)
-            if ($assign->getClients() === $this) {
-                $assign->setClients(null);
+            if ($assign->getComputer() === $this) {
+                $assign->setComputer(null);
             }
         }
 

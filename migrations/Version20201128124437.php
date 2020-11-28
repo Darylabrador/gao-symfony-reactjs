@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201128115728 extends AbstractMigration
+final class Version20201128124437 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,16 +20,16 @@ final class Version20201128115728 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE assigns ADD clients_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE assigns ADD CONSTRAINT FK_BAAD7EDCAB014612 FOREIGN KEY (clients_id) REFERENCES clients (id)');
-        $this->addSql('CREATE INDEX IDX_BAAD7EDCAB014612 ON assigns (clients_id)');
+        $this->addSql('ALTER TABLE assign ADD client_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE assign ADD CONSTRAINT FK_7222A9A119EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
+        $this->addSql('CREATE INDEX IDX_7222A9A119EB6921 ON assign (client_id)');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE assigns DROP FOREIGN KEY FK_BAAD7EDCAB014612');
-        $this->addSql('DROP INDEX IDX_BAAD7EDCAB014612 ON assigns');
-        $this->addSql('ALTER TABLE assigns DROP clients_id');
+        $this->addSql('ALTER TABLE assign DROP FOREIGN KEY FK_7222A9A119EB6921');
+        $this->addSql('DROP INDEX IDX_7222A9A119EB6921 ON assign');
+        $this->addSql('ALTER TABLE assign DROP client_id');
     }
 }
