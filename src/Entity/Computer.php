@@ -6,6 +6,7 @@ use App\Repository\ComputerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,17 +18,20 @@ class Computer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("attribution")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Unique(message="Le poste existe déjà")
+     * @Groups("attribution")
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="computer", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="computer", orphanRemoval=true)
+     * @Groups("attribution")
      */
     private $assigns;
 

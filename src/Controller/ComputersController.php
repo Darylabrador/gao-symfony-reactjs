@@ -4,25 +4,30 @@ namespace App\Controller;
 
 use App\Entity\Computer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ComputerRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ComputersController extends AbstractController
 {
     /**
-     * @Route("/api/computers", name="computers", methods="GET")
+     * @Route("/api/computers", name="computers", methods={"GET"})
      */
-    public function index(): JsonResponse
+    public function index(ComputerRepository $computerRepository, SerializerInterface $serializer): JsonResponse
     {
-        return new JsonResponse(["ordinateur" => 'recuperer les infos']);
+        $computers = $computerRepository->findAll();
+        $json = $serializer->serialize($computers, 'json', ['groups' => 'attribution']);
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
     }
 
 
     /**
-     * @Route("/api/computers/add", name="computers_add", methods="POST")
+     * @Route("/api/computer/add", name="computer_add", methods={"POST"})
      */
     public function create(Request $request, ComputerRepository $computerRepo): Response
     {
@@ -39,5 +44,19 @@ class ComputersController extends AbstractController
         } else {
             return $this->json(['success' => false, 'message' => 'Poste existe déjà']);
         }
+    }
+
+
+    /**
+     * @Route("/api/computer/delete/{id}", name="computer_delete", methods={"DELETE"})
+     */
+    public function delete(Computer $computer, EntityManagerInterface $em): Response
+    {
+        $em->remove($computer);
+        $em->flush();
+        return $this->json([
+            'success' => true,
+            'message' => "Suppression réussie"
+        ], 200);
     }
 }
