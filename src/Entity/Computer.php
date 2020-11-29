@@ -27,7 +27,7 @@ class Computer
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="computer")
+     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="computer", cascade={"remove"})
      */
     private $assigns;
 

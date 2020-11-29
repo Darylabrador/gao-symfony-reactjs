@@ -30,7 +30,7 @@ class Client
     private $surname;
 
     /**
-     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=Assign::class, mappedBy="client", cascade={"remove"})
      */
     private $assigns;
 

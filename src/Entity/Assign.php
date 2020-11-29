@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AssignRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,7 @@ class Assign
      */
     private $client;
 
+    
     public function getId(): ?int
     {
         return $this->id;
