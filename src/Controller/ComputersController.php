@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\ComputerRepository;
 
 class ComputersController extends AbstractController
 {
@@ -24,14 +24,20 @@ class ComputersController extends AbstractController
     /**
      * @Route("/api/computers/add", name="computers_add", methods="POST")
      */
-    public function create(Request $request): JsonResponse
+    public function create(Request $request, ComputerRepository $computerRepo): Response
     {
         $data = json_decode($request->getContent(), true);
-        $computer = new Computer();
-        $computer->setName($data['name']);
-        $doctrine = $this->getDoctrine()->getManager();
-        $doctrine->persist($computer);
-        $doctrine->flush();
-        return $this->json($computer);
+        $computerExist = $computerRepo->findOneBy(['name' => $data['name']]);
+
+        if (!$computerExist) {
+            $computer = new Computer();
+            $computer->setName($data['name']);
+            $doctrine = $this->getDoctrine()->getManager();
+            $doctrine->persist($computer);
+            $doctrine->flush();
+            return $this->json($computer);
+        } else {
+            return $this->json(['success' => false, 'message' => 'Poste existe déjà']);
+        }
     }
 }
