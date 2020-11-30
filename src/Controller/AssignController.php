@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AssignController extends AbstractController
 {
@@ -39,5 +40,19 @@ class AssignController extends AbstractController
         $json = $serializer->serialize($attribution, 'json', ['groups' => 'attribution']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
+    }
+
+
+    /**
+     * @Route("/api/attribution/delete/{id}", name="attribution_delete", methods={"DELETE"})
+     */
+    public function delete(Assign $assign, EntityManagerInterface $em): Response
+    {
+        $em->remove($assign);
+        $em->flush();
+        return $this->json([
+            'success' => true,
+            'message' => "Suppression réussie"
+        ], 200);
     }
 }
