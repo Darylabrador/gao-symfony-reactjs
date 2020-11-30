@@ -18,19 +18,19 @@ class Client
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"attribution", "searchClient", "clientinfo"})
+     * @Groups({"attribution", "searchClient", "clientinfo", "attrib"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"attribution", "searchClient", "clientinfo"})
+     * @Groups({"attribution", "searchClient", "clientinfo", "attrib"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"attribution", "searchClient", "clientinfo"})
+     * @Groups({"attribution", "searchClient", "clientinfo", "attrib"})
      */
     private $surname;
 

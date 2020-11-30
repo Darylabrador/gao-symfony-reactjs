@@ -33,11 +33,10 @@ class AssignController extends AbstractController
         $attribution->setClient($client);
         $attribution->setComputer($computer);
         $doctrine = $this->getDoctrine()->getManager();
-        $doctrine->persist($client);
         $doctrine->persist($attribution);
         $doctrine->flush();
 
-        $json = $serializer->serialize($attribution, 'json', ['groups' => 'attributioninfo']);
+        $json = $serializer->serialize($attribution, 'json', ['groups' => 'attrib']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
