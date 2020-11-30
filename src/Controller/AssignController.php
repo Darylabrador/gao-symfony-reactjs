@@ -25,7 +25,7 @@ class AssignController extends AbstractController
         $client   = $clientRepository->find($data['desktop_id']);
         $computer = $computerRepository->find($data['client_id']);
 
-        $date = new \DateTime('@' . strtotime($data['date']));
+        $date = new \DateTime($data['date']);
 
         $attribution = new Assign();
         $attribution->setHours($data['hours']);
@@ -37,7 +37,7 @@ class AssignController extends AbstractController
         $doctrine->persist($attribution);
         $doctrine->flush();
 
-        $json = $serializer->serialize($attribution, 'json', ['groups' => 'attribution']);
+        $json = $serializer->serialize($attribution, 'json', ['groups' => 'attributioninfo']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }

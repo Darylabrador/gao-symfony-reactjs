@@ -28,6 +28,8 @@ class ClientController extends AbstractController
         return $response;
     }
 
+
+
     /**
      * @Route("/api/client/create", name="createClient", methods={"POST"})
      */
@@ -40,8 +42,8 @@ class ClientController extends AbstractController
         $doctrine->persist($client);
         
         $computer = $computerRepository->find($data['desktop_id']);
-        $date = new \DateTime('@' . strtotime($data['date']));
-
+        $date = new \DateTime($data['date']);
+        
         $attribution = new Assign();
         $attribution->setHours($data['hours']);
         $attribution->setDate($date);
@@ -50,7 +52,7 @@ class ClientController extends AbstractController
         $doctrine->persist($attribution);
         $doctrine->flush();
 
-        $json = $serializer->serialize($attribution, 'json', ['groups' => 'attribution']);
+        $json = $serializer->serialize($attribution, 'json', ['groups' => 'clientinfo']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }

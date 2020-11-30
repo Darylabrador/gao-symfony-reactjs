@@ -15,19 +15,19 @@ class Assign
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("attribution")
+     * @Groups({"attribution", "clientinfo"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("attribution")
+     * @Groups({"attribution", "clientinfo"})
      */
     private $hours;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups("attribution")
+     * @Groups({"attribution", "clientinfo"})
      */
     private $date;
 
@@ -38,7 +38,7 @@ class Assign
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="assigns")
-     * @Groups("attribution")
+     * @Groups({"attribution", "clientinfo"})
      */
     private $client;
 
