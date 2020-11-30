@@ -19,6 +19,20 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
+    /**
+     * Autocomplete for query
+     */
+    public function findClients($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->orWhere('c.name like :val')
+            ->orWhere('c.surname like :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Client[] Returns an array of Client objects
     //  */
