@@ -8,19 +8,35 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ComputerRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ComputersController extends AbstractController
 {
     /**
      * @Route("/api/computers", name="computers", methods={"GET"})
      */
-    public function index(ComputerRepository $computerRepository, SerializerInterface $serializer): JsonResponse
+    public function index(ComputerRepository $computerRepository, SerializerInterface $serializer,Request $request, PaginatorInterface $paginatorInterface)
     {
-        $computers = $computerRepository->findAll();
-        $json = $serializer->serialize($computers, 'json', ['groups' => 'attribution']);
+        $page = $request->query->get('page') ? (int) $request->query->get('page') : 1;
+        $datenow   = new DateTime();
+        $dateQuery = $datenow->format('Y-m-d');
+        $date = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
+   
+
+        $computers = $computerRepository->findAllWithPagination($date);
+        // dd($computers);
+
+        $computerPaginate = $paginatorInterface->paginate(
+            $computers,  // Les données à paginé
+            $page,       // Numéro de la page
+            3            // Nombre d'élément par page
+        );
+
+        $json = $serializer->serialize($computerPaginate, 'json', ['groups' => 'attribution']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }

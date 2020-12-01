@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Computer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\ORM\Query;
 /**
  * @method Computer|null find($id, $lockMode = null, $lockVersion = null)
  * @method Computer|null findOneBy(array $criteria, array $orderBy = null)
@@ -19,6 +19,14 @@ class ComputerRepository extends ServiceEntityRepository
         parent::__construct($registry, Computer::class);
     }
 
+    public function findAllWithPagination($date) : Query
+    {
+        return $this->createQueryBuilder('c')
+                    ->leftJoin("c.assigns", "cassign", "cassign.computer_id = c.id" )
+                    ->where("cassign.date LIKE :val")
+                    ->setParameter("val", '%'.$date.'%')
+                    ->getQuery();
+    }
     // /**
     //  * @return Computer[] Returns an array of Computer objects
     //  */
