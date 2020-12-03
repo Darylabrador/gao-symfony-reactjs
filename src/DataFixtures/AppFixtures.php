@@ -13,6 +13,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+
         $faker = Faker\Factory::create('fr_FR');
         $datenow = new \DateTime('@' . strtotime('now'));
 

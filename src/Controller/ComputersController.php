@@ -25,11 +25,9 @@ class ComputersController extends AbstractController
         $datenow   = new DateTime();
         $dateQuery = $datenow->format('Y-m-d');
         $date = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
-   
 
         $computers = $computerRepository->findAllWithPagination($date);
-        // dd($computers);
-
+    
         $computerPaginate = $paginatorInterface->paginate(
             $computers,  // Les données à paginé
             $page,       // Numéro de la page

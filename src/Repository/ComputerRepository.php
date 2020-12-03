@@ -19,14 +19,16 @@ class ComputerRepository extends ServiceEntityRepository
         parent::__construct($registry, Computer::class);
     }
 
-    public function findAllWithPagination($date) : Query
+    public function findAllWithPagination($date): Query
     {
         return $this->createQueryBuilder('c')
-                    ->leftJoin("c.assigns", "cassign", "cassign.computer_id = c.id" )
-                    ->where("cassign.date LIKE :val")
-                    ->setParameter("val", '%'.$date.'%')
-                    ->getQuery();
+            ->leftJoin("c.assigns", "cassign")
+            ->where("cassign.date LIKE :val")
+            ->setParameter("val", '%' . $date . '%')
+            ->getQuery();
     }
+
+    
     // /**
     //  * @return Computer[] Returns an array of Computer objects
     //  */
