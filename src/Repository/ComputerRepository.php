@@ -6,6 +6,7 @@ use App\Entity\Computer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
+
 /**
  * @method Computer|null find($id, $lockMode = null, $lockVersion = null)
  * @method Computer|null findOneBy(array $criteria, array $orderBy = null)
@@ -28,7 +29,14 @@ class ComputerRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    
+    public function findAllAndCount()
+    {
+        return $this->createQueryBuilder('c')
+            ->select("count(c.id)")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Computer[] Returns an array of Computer objects
     //  */

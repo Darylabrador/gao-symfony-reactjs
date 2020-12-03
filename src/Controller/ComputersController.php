@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Computer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ComputerRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -19,7 +19,7 @@ class ComputersController extends AbstractController
     /**
      * @Route("/api/computers", name="computers", methods={"GET"})
      */
-    public function index(ComputerRepository $computerRepository, SerializerInterface $serializer,Request $request, PaginatorInterface $paginatorInterface)
+    public function index(ComputerRepository $computerRepository, SerializerInterface $serializer, Request $request, PaginatorInterface $paginatorInterface): JsonResponse
     {
         $page = $request->query->get('page') ? (int) $request->query->get('page') : 1;
         $datenow   = new DateTime();
@@ -27,14 +27,22 @@ class ComputersController extends AbstractController
         $date = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
 
         $computers = $computerRepository->findAllWithPagination($date);
-    
+
+        $limit = 3;
+
         $computerPaginate = $paginatorInterface->paginate(
             $computers,  // Les données à paginé
             $page,       // Numéro de la page
-            3            // Nombre d'élément par page
+            $limit            // Nombre d'élément par page
         );
 
-        $json = $serializer->serialize($computerPaginate, 'json', ['groups' => 'attribution']);
+        $totalComputers = $computerRepository->findAllAndCount();
+        $data = [
+            'data'      => $computerPaginate,
+            'totalpage' => ceil($totalComputers / $limit)
+        ];
+
+        $json = $serializer->serialize($data, 'json', ['groups' => 'attribution']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
@@ -43,7 +51,7 @@ class ComputersController extends AbstractController
     /**
      * @Route("/api/computer/add", name="computer_add", methods={"POST"})
      */
-    public function create(Request $request, ComputerRepository $computerRepo): Response
+    public function create(Request $request, ComputerRepository $computerRepo, SerializerInterface $serializer): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $computerExist = $computerRepo->findOneBy(['name' => $data['name']]);

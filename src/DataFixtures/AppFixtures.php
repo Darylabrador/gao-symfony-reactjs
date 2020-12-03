@@ -16,7 +16,7 @@ class AppFixtures extends Fixture
 
         $faker = Faker\Factory::create('fr_FR');
         $datenow = new \DateTime('@' . strtotime('now'));
-
+        
         for ($i = 1; $i < 6; $i++) {
             $client = new Client();
             $client->setName($faker->firstNameMale);
