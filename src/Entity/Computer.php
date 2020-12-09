@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ComputerRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Computer
 {
+
+    /**
+     * Date to filter attribution data
+     */
+    public static $date;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -62,7 +69,11 @@ class Computer
      */
     public function getAssigns(): Collection
     {
-        return $this->assigns;
+        $date = self::$date;
+        return $this->assigns->filter(function($attr) use($date) {
+            $chosenDate =  new DateTime($date);
+            return $attr->getDate() == $chosenDate;
+        });
     }
 
     public function addAssign(Assign $assign): self

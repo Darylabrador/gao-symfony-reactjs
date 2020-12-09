@@ -25,22 +25,25 @@ class ComputersController extends AbstractController
         $datenow   = new DateTime();
         $dateQuery = $datenow->format('Y-m-d');
         $date = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
-
-        $computers = $computerRepository->findAllWithPagination($date);
-
+       
+        $computers = new Computer();
+        $computers::$date = $date;
+        
+        $computersQuery = $computerRepository->findAllQuery();
         $limit = 3;
 
         $computerPaginate = $paginatorInterface->paginate(
-            $computers,  // Les données à paginé
-            $page,       // Numéro de la page
+            $computersQuery,  // Les données à paginé
+            $page,            // Numéro de la page
             $limit            // Nombre d'élément par page
         );
 
         $totalComputers = $computerRepository->findAllAndCount();
         $data = [
             'data'      => $computerPaginate,
-            'totalpage' => ceil($totalComputers / $limit)
+            'totalpage' => ceil($totalComputers / $limit),
         ];
+
 
         $json = $serializer->serialize($data, 'json', ['groups' => 'attribution']);
         $response = new JsonResponse($json, 200, [], true);
