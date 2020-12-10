@@ -21,11 +21,12 @@ class ComputersController extends AbstractController
      */
     public function index(ComputerRepository $computerRepository, SerializerInterface $serializer, Request $request, PaginatorInterface $paginatorInterface): JsonResponse
     {
-        $page = $request->query->get('page') ? (int) $request->query->get('page') : 1;
+        $page      = $request->query->get('page') ? (int) $request->query->get('page') : 1;
         $datenow   = new DateTime();
         $dateQuery = $datenow->format('Y-m-d');
-        $date = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
+        $date      = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
        
+        // let's see getAssigns from Computer entity
         $computers = new Computer();
         $computers::$date = $date;
         
