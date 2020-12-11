@@ -32,3 +32,9 @@ En mode développment vous devez utiliser les commandes suivantes :
 
 - symfony serve
 - npm run watch
+
+
+### Ressources :
+
+- https://symfony.com/
+- https://h-benkachoud.medium.com/symfony-rest-api-without-fosrestbundle-using-jwt-authentication-part-2-be394d0924dd
