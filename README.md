@@ -10,27 +10,25 @@ Ce projet utilise les technologies suivantes :
 
 Identifiant du compte admin : 
 
-- identifiant :
-- mot de passe : 
+- identifiant : admin@gmail.com
+- mot de passe : password
 
 
 ## Initialisation du projet
 
-Après avoir fait un git clone de ce projet, vous devez effectué les actions suivantes : 
+Après avoir fait un git clone de ce projet, vous devez effectué les commandes suivantes : 
 
-
-
-Ensuite, vous devez créer et modifier le fichier .env pour les lignes suivantes : 
-
-
-
-Les informations concernant le passport se trouve dans votre base de données.
+- composer install
+- npm install
+- php bin/console doctrine:database:create
+- php bin/console doctrine:migrations:migrate
+- php bin/console doctrine:fixtures:load
 
 ## Lancement du projet 
 
 En mode développment vous devez utiliser les commandes suivantes : 
 
-- symfony serve
+- symfony server:start
 - npm run watch
 
 
