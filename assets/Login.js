@@ -47,17 +47,16 @@ export default class Login extends Component {
      */
     async handleSubmit(event) {
         event.preventDefault();
-        const LoginData = await Axios.post('/api/login', {
-            email: this.state.email,
-            password: this.state.password
-        });
-        let responseData = LoginData.data;
-            if (responseData.success) {
+        try {
+            const LoginData = await Axios.post('/api/login_check', {
+                username: this.state.email,
+                password: this.state.password
+            });
+            let responseData = LoginData.data;
             setToken(responseData.token);
-            await this.setState({ redirect: true })
-            await this.setState({ email: "", password: "" });
-        } else {
-            flashError(responseData.message)
+            await this.setState({ redirect: true, email: "", password: "" });
+        } catch (error) {
+            flashError('Mot de passe ou identifiant incorrecte')
         }
     }
 
@@ -79,7 +78,7 @@ export default class Login extends Component {
             )
         } else {
             return (
-                <div className="loginContainer">
+                <React.Fragment>
                     <ToastContainer
                         position="bottom-right"
                         autoClose={5000}
@@ -91,6 +90,7 @@ export default class Login extends Component {
                         draggable
                         pauseOnHover
                     />
+                <div className="loginContainer">
                     <form onSubmit={this.handleSubmit} className="loginForm">
                         <h3 className="whiteFont"> Bienvenue sur l'espace culturel </h3>
                         <TextField type="email" label="Adresse email" value={this.state.email} onChange={this.handleChangeEmail} className="loginInput" />
@@ -100,6 +100,7 @@ export default class Login extends Component {
                         </div>
                     </form>
                 </div>
+                </React.Fragment>
             )
         }
     }
