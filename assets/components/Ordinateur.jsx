@@ -40,7 +40,7 @@ export default class OrdinateurCard extends Component {
      * Create assign array (associative array)
      */
     initialize() {
-        var attributionInfo = this.props.ordinateur.attributions;
+        var attributionInfo = this.props.ordinateur.assigns;
         if (attributionInfo.length != 0) {
             attributionInfo.forEach(element => {
                 this.state.attributions[element.hours] ={

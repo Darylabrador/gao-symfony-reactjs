@@ -54,9 +54,7 @@ export default class Home extends Component {
      */
     async getAttribution() {
         try {
-            await this.setState({ ordinateurs: [] });
-            await this.setState({ paginationLink: {} });
-            await this.setState({ totalPage: null });
+            await this.setState({ ordinateurs: [], paginationLink: {}, totalPage: null });
 
             const allInformation = await Axios.get('/api/computers', {
                 params: {
@@ -67,11 +65,9 @@ export default class Home extends Component {
                     Authorization: `Bearer ${getToken()}`
                 }
             });
+
             const responseData = allInformation.data;
-            let now = Math.ceil(responseData.meta.total / 3);
-            await this.setState({ ordinateurs: responseData.data });
-            await this.setState({ paginationLink: responseData.links });
-            await this.setState({ totalPage: now });
+            await this.setState({ ordinateurs: responseData.data, paginationLink: responseData.links, totalPage: responseData.totalpage  });
         } catch (error) {
             console.error(error)
         } 
