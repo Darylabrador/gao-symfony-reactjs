@@ -26,17 +26,15 @@ export default class SuppAttributionModal extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const assignData = await Axios.delete(`/api/computers/attributions/${this.state.idAssign}`, {
+            const assignData = await Axios.delete(`/api/attribution/delete/${this.state.idAssign}`, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
             });
             let responseData = assignData.data;
-            if(responseData.success) {
-                await this.props.suppAttribution(this.state.idAssign);
-                flashSuccess(responseData.message);
-                await this.handleClose();
-            }
+            await this.props.suppAttribution(this.state.idAssign);
+            flashSuccess(responseData.message);
+            await this.handleClose();
         } catch (error) {
             console.error(error)
         }

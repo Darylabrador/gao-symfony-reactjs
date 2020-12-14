@@ -17,12 +17,12 @@ use App\Repository\ComputerRepository;
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/api/client/search", name="autocomplete", methods={"POST"})
+     * @Route("/api/client/search", name="autocomplete", methods={"GET"})
      */
     public function autocomplete(Request $request, ClientRepository $clientRepository, SerializerInterface $serializer): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        $clients = $clientRepository->findClients($data['clientInfo']);
+        $data = $request->get('client');
+        $clients = $clientRepository->findClients($data);
         $json = $serializer->serialize($clients, 'json', ['groups' => 'searchClient']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
@@ -33,17 +33,18 @@ class ClientController extends AbstractController
     /**
      * @Route("/api/client/create", name="createClient", methods={"POST"})
      */
-    public function create(Request $request, ComputerRepository $computerRepository, SerializerInterface $serializer) {
+    public function create(Request $request, ComputerRepository $computerRepository, SerializerInterface $serializer)
+    {
         $data = json_decode($request->getContent(), true);
         $client = new Client();
         $client->setName($data['name']);
         $client->setSurname($data['surname']);
         $doctrine = $this->getDoctrine()->getManager();
         $doctrine->persist($client);
-        
-        $computer = $computerRepository->find($data['desktop_id']);
+
+        $computer = $computerRepository->find($data['desktop']);
         $date = new \DateTime($data['date']);
-        
+
         $attribution = new Assign();
         $attribution->setHours($data['hours']);
         $attribution->setDate($date);
@@ -52,7 +53,12 @@ class ClientController extends AbstractController
         $doctrine->persist($attribution);
         $doctrine->flush();
 
-        $json = $serializer->serialize($attribution, 'json', ['groups' => 'clientinfo']);
+        $responseData = [
+            "message" => "Créneau réservé",
+            "content" => $attribution,
+        ];
+
+        $json = $serializer->serialize($responseData, 'json', ['groups' => 'clientinfo']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }

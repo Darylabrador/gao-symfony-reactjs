@@ -27,7 +27,7 @@ export default class SuppOrdiModal extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const deleteOrdiData = await Axios.delete(`/api/computers/${this.state.idOrdi}`, {
+            const deleteOrdiData = await Axios.delete(`/api/computer/delete/${this.state.idOrdi}`, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }

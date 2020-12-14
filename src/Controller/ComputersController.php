@@ -25,11 +25,11 @@ class ComputersController extends AbstractController
         $datenow   = new DateTime();
         $dateQuery = $datenow->format('Y-m-d');
         $date      = $request->query->get('date') ? $request->query->get('date') : $dateQuery;
-       
+
         // let's see getAssigns from Computer entity
         $computers = new Computer();
         $computers::$date = $date;
-        
+
         $computersQuery = $computerRepository->findAllQuery();
         $limit = 3;
 

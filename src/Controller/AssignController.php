@@ -22,11 +22,10 @@ class AssignController extends AbstractController
     public function index(Request $request, SerializerInterface $serializer, ClientRepository $clientRepository, ComputerRepository $computerRepository): JsonResponse
     {
         $data     = json_decode($request->getContent(), true);
-        $client   = $clientRepository->find($data['desktop_id']);
-        $computer = $computerRepository->find($data['client_id']);
+        $client   = $clientRepository->find($data['clientId']);
+        $computer = $computerRepository->find($data['desktopId']);
 
         $date = new \DateTime($data['date']);
-
         $attribution = new Assign();
         $attribution->setHours($data['hours']);
         $attribution->setDate($date);
@@ -36,7 +35,12 @@ class AssignController extends AbstractController
         $doctrine->persist($attribution);
         $doctrine->flush();
 
-        $json = $serializer->serialize($attribution, 'json', ['groups' => 'attrib']);
+        $responsJson = [
+            "message" => "Créneau réservé",
+            "content" => $attribution,
+        ];
+
+        $json = $serializer->serialize($responsJson, 'json', ['groups' => 'attrib']);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }

@@ -47,7 +47,7 @@ export default class OrdinateurCard extends Component {
                     id: element.client.id,
                     surname: element.client.surname,
                     name: element.client.name,
-                    idAssign: element.idAssign
+                    idAssign: element.id
                 }
             })
         }
@@ -77,6 +77,7 @@ export default class OrdinateurCard extends Component {
                 arrayDataFormatted.push(arrayData)
             }
         }
+
         await this.setState({timeslots: arrayDataFormatted})
     }
 

@@ -37,7 +37,7 @@ export default class Home extends Component {
         this.getAddOrdi       = this.getAddOrdi.bind(this);
         this.getDeleteOrdi    = this.getDeleteOrdi.bind(this);
         this.updateOrdi       = this.updateOrdi.bind(this);
-        this.logout = this.logout.bind(this);
+        this.logout           = this.logout.bind(this);
     }
 
 

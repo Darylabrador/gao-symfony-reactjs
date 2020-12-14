@@ -45,22 +45,22 @@ export default class AjoutOrdinateurModal extends Component {
                 name: this.state.name
             };
             
-            const ordiData = await Axios.post('/api/computers', dataSend, {
+            const ordiData = await Axios.post('/api/computer/add', dataSend, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
             });
 
             let responseData = ordiData.data;
-            if(responseData.success) {
+
+            if (responseData.success && responseData.success == false) {
+                flashError(responseData.message)
+            } else {
                 this.props.ajoutOrdi(true);
                 await this.setState({ name: "" });
                 flashSuccess(responseData.message)
                 this.handleClose();
-            } else {
-                flashError(responseData.message)
             }
-
         } catch (error) {
             console.error(error)
         }
