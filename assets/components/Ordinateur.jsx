@@ -113,7 +113,7 @@ export default class OrdinateurCard extends Component {
                 id: attributions.client.id,
                 surname: attributions.client.surname,
                 name: attributions.client.name,
-                idAssign: attributions.idAssign
+                idAssign: attributions.id
             }
             await this.initialize()
             await this.displayHoraire()

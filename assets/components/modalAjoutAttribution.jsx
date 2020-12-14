@@ -45,15 +45,17 @@ export default class AjoutAttributionModal extends Component {
         let client       = event.target.value;
         let clientLength = client.length;
         if(clientLength > 2) {
-
             try {
-                const clientData = await Axios.post('/api/client/search', { clientInfo: client }, {
+                const clientData = await Axios.get('/api/client/search', {
+                    params: {
+                        clientInfo: client
+                    },
                     headers: {
                         Authorization: `Bearer ${getToken()}`
                     }
                 });
 
-                const responseData = clientData.data.data;
+                const responseData = clientData.data;
                 let userLength = responseData.length;
 
                 if (userLength == 0) {
@@ -78,9 +80,9 @@ export default class AjoutAttributionModal extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const attributionData = await Axios.post('/api/computers/attributions', {
-                desktop_id: this.state.desktop_id,
-                client_id: this.state.attributeInfo.id,
+            const attributionData = await Axios.post('/api/computer/attribution', {
+                desktopId: this.state.desktop_id,
+                clientId: this.state.attributeInfo.id,
                 hours: this.state.hours,
                 date: this.state.date
             },{
@@ -89,7 +91,7 @@ export default class AjoutAttributionModal extends Component {
                 }
             })
 
-            const attributionDataSend = attributionData.data.data;
+            const attributionDataSend = attributionData.data.content;
             await this.props.getAddAttributions(attributionDataSend);
             flashSuccess("Créneau réserver !")
             this.handleClose();

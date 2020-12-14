@@ -49,12 +49,13 @@ export default class AjoutClientModal extends Component {
      */
     async handleSubmit(event) {
         event.preventDefault();
+        event.stopPropagation();
         try {
-            const createClientData = await Axios.post(`/api/client/attributions`,
+            const createClientData = await Axios.post(`/api/client/create`,
                 {
                     name: this.state.name,
                     surname: this.state.surname,
-                    desktop_id: this.state.desktop_id,
+                    desktop: this.state.desktop_id,
                     hours: this.state.hours,
                     date: this.state.date
                 },
@@ -64,16 +65,13 @@ export default class AjoutClientModal extends Component {
                     }
                 }
             )
+
             let responseData = createClientData.data;
-            if (responseData.success) {
-                let assignInfo = responseData.message;
-                await this.props.getInfoAttribution(assignInfo);
-                await this.setState({ name: "", surname: "", open: false });
-                await this.props.closeModal();
-            } else {
-                flashError(responseData.message);
-                await this.props.closeModal();
-            }
+            let assignInfo = responseData.content;
+            await this.props.getInfoAttribution(assignInfo);
+            await this.setState({ name: "", surname: "", open: false });
+            await this.props.closeModal();
+
         } catch (error) {
             console.error(error);
         }
