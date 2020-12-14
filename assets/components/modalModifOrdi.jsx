@@ -47,7 +47,7 @@ export default class ModifOrdiModal extends Component {
 
             };
 
-            const ordiData = await Axios.put(`/api/computers/${this.state.idOrdi}`, dataSend, {
+            const ordiData = await Axios.put(`/api/computer/update/${this.state.idOrdi}`, dataSend, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }

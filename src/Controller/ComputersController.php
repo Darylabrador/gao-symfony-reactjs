@@ -72,6 +72,19 @@ class ComputersController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/api/computer/update/{id}", name="computer_update", methods={"PUT"})
+     */
+    public function updateComputer(Computer $computer, EntityManagerInterface $em, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $computer->setName($data['name']);
+        $em->persist($computer);
+        $em->flush();
+        return $this->json(['success' => true, 'message' => 'Mise à jour effectuée']);
+
+    }
+
 
     /**
      * @Route("/api/computer/delete/{id}", name="computer_delete", methods={"DELETE"})
