@@ -78,7 +78,7 @@ export default class Login extends Component {
             )
         } else {
             return (
-                <React.Fragment>
+                <div className="loginContainer">
                     <ToastContainer
                         position="bottom-right"
                         autoClose={5000}
@@ -90,9 +90,8 @@ export default class Login extends Component {
                         draggable
                         pauseOnHover
                     />
-                <div className="loginContainer">
                     <form onSubmit={this.handleSubmit} className="loginForm">
-                        <h3 className="whiteFont"> Bienvenue sur l'espace culturel </h3>
+                        <h3> Bienvenue sur l'espace culturel </h3>
                         <TextField type="email" label="Adresse email" value={this.state.email} onChange={this.handleChangeEmail} className="loginInput" />
                         <TextField type="password" label="Mot de passe" value={this.state.password} onChange={this.handleChangePassword} className="loginInput" />
                         <div className="btnLoginContainer">
@@ -100,7 +99,6 @@ export default class Login extends Component {
                         </div>
                     </form>
                 </div>
-                </React.Fragment>
             )
         }
     }
