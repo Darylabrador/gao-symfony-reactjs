@@ -1,9 +1,8 @@
-import Axios from 'axios';
+import { apiService } from "../services/apiService";
 import React, { Component } from 'react';
 import Modal from '@material-ui/core/Modal';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
-import { getToken } from '../services/tokenConfig';
 import { flashSuccess } from '../services/flashMessage';
 
 export default class SuppAttributionModal extends Component {
@@ -26,11 +25,7 @@ export default class SuppAttributionModal extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const assignData = await Axios.delete(`/api/attribution/delete/${this.state.idAssign}`, {
-                headers: {
-                    Authorization: `Bearer ${getToken()}`
-                }
-            });
+            const assignData = await apiService.delete(`/attribution/delete/${this.state.idAssign}`);
             let responseData = assignData.data;
             await this.props.suppAttribution(this.state.idAssign);
             flashSuccess(responseData.message);

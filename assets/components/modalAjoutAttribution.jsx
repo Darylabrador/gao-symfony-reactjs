@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import { apiService } from "../services/apiService";
 import React, { Component } from 'react';
 import Modal from '@material-ui/core/Modal';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -46,13 +46,10 @@ export default class AjoutAttributionModal extends Component {
         let clientLength = client.length;
         if(clientLength > 2) {
             try {
-                const clientData = await Axios.get('/api/client/search', {
+                const clientData = await apiService.get('/client/search', {
                     params: {
                         clientInfo: client
                     },
-                    headers: {
-                        Authorization: `Bearer ${getToken()}`
-                    }
                 });
 
                 const responseData = clientData.data;
@@ -80,15 +77,11 @@ export default class AjoutAttributionModal extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const attributionData = await Axios.post('/api/computer/attribution', {
+            const attributionData = await apiService.post('/computer/attribution', {
                 desktopId: this.state.desktop_id,
                 clientId: this.state.attributeInfo.id,
                 hours: this.state.hours,
                 date: this.state.date
-            },{
-                headers: {
-                    Authorization: `Bearer ${getToken()}`
-                }
             })
 
             const attributionDataSend = attributionData.data.content;

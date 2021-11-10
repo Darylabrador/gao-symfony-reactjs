@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import { apiService } from "./services/apiService";
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -48,7 +48,7 @@ export default class Login extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-            const LoginData = await Axios.post('/api/login_check', {
+            const LoginData = await apiService.post('/login_check', {
                 username: this.state.email,
                 password: this.state.password
             });

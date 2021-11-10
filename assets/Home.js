@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import { apiService } from "./services/apiService";
 import React, { Component } from 'react';
 import Ordinateur from './components/Ordinateur';
 import Grid from '@material-ui/core/Grid';
@@ -56,14 +56,11 @@ export default class Home extends Component {
         try {
             await this.setState({ ordinateurs: [], paginationLink: {}, totalPage: null });
 
-            const allInformation = await Axios.get('/api/computers', {
+            const allInformation = await apiService.get('/computers', {
                 params: {
                     date: this.state.currentDate,
                     page: this.state.currentPage
                 },
-                headers: {
-                    Authorization: `Bearer ${getToken()}`
-                }
             });
 
             const responseData = allInformation.data;

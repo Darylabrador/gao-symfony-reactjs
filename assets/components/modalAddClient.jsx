@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import { apiService } from "../services/apiService";
 import React, { Component } from 'react';
 import Modal from '@material-ui/core/Modal';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -51,7 +51,7 @@ export default class AjoutClientModal extends Component {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const createClientData = await Axios.post(`/api/client/create`,
+            const createClientData = await apiService.post(`/client/create`,
                 {
                     name: this.state.name,
                     surname: this.state.surname,
@@ -59,11 +59,6 @@ export default class AjoutClientModal extends Component {
                     hours: this.state.hours,
                     date: this.state.date
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${getToken()}`
-                    }
-                }
             )
 
             let responseData = createClientData.data;

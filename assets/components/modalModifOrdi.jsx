@@ -1,9 +1,8 @@
-import Axios from 'axios';
+import { apiService } from "../services/apiService";
 import React, { Component } from 'react';
 import Modal from '@material-ui/core/Modal';
 import CreateIcon from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
-import { getToken } from '../services/tokenConfig';
 import { flashSuccess, flashError } from '../services/flashMessage';
 
 export default class ModifOrdiModal extends Component {
@@ -47,11 +46,7 @@ export default class ModifOrdiModal extends Component {
 
             };
 
-            const ordiData = await Axios.put(`/api/computer/update/${this.state.idOrdi}`, dataSend, {
-                headers: {
-                    Authorization: `Bearer ${getToken()}`
-                }
-            });
+            const ordiData = await apiService.put(`/computer/update/${this.state.idOrdi}`, dataSend);
 
             let responseData = ordiData.data;
             if (responseData.success) {
